@@ -15,6 +15,12 @@ class Todo(db.Model):
     complete = db.Column(db.Boolean)
 
 
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    text = db.Column(db.String(1000))
+
+
 @app.route("/")
 def home():
     todos = Todo.query.all()
@@ -37,13 +43,40 @@ def update(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
-
 @app.route("/delete/<int:todo_id>")
 def delete(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
     db.session.delete(todo)
     db.session.commit()
     return redirect(url_for("home"))
+
+# notes
+
+@app.route("/notes/")
+def notes():
+    notes = Note.query.all()
+    return render_template("notes.html", note_list=notes)
+
+@app.route("/notes/<int:note_id>")
+def note(note_id):
+    note = Note.query.filter_by(id=note_id).first()
+    return render_template("note.html", note=note)
+
+@app.route("/notes/add", methods=["POST"])
+def add_note():
+    title = request.form.get("title")
+    text = request.form.get("body")
+    new_note = Note(title=title, text="Unknown")
+    db.session.add(new_note)
+    db.session.commit()
+    return redirect(url_for("notes"))
+
+@app.route("/notes/delete/<int:note_id>")
+def delete_note(note_id):
+    note = Note.query.filter_by(id=note_id).first()
+    db.session.delete(note)
+    db.session.commit()
+    return redirect(url_for("notes"))
 
 if __name__ == "__main__":
     db.create_all()
