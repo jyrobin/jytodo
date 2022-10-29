@@ -8,6 +8,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+nav_items = [
+    {'href': '/', 'title': 'Home', 'active': 'active' },
+    {'href': '/notes', 'title': 'Notes', 'active': '' }
+]
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,8 +26,11 @@ class Note(db.Model):
 @app.route("/") 
 def home():
     todo_list = Todo.query.all()
-    return render_template("test.html", todo_list=todo_list)
+    return render_template("home.html", todo_list=todo_list, nav_items=nav_items)
 
+@app.route("/test") 
+def card():
+    return render_template("test/check.html")
 
 @app.route("/add", methods=["POST"])
 def add():
@@ -49,7 +56,7 @@ def delete(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
-#note
+# notes
 
 @app.route("/notes/")
 def note_index():

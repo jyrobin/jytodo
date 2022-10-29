@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% set page = "home" %}
+
+{% block content %}
+    <h1 class="text-center">Wat u gonna do</h1>
+
+    <form action="/add" method="post">
+        <div class="row g-3"> 
+            <div class="col-12">
+                <label for="title" class="form-label">Let's do it</label>
+                <input class="form-control" type="text" name="title"
+                        placeholder="ex. Buy some new cars..."><br>
+            </div>
+                <button class="btn btn-warning btn-lg" type="submit">+</button>
+        </div>
+        
+    </form>
+
+    <hr>
+
+    {% for todo in todo_list %}
+    
+    <hr>
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        Todo
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+        <label class="form-check-label" for="flexCheckChecked">
+            {{ todo.id}} | {{ todo.title }}
+        </label>
+        <div class="my-2">
+            <a class="btn btn-secondary" href="/delete/{{ todo.id }}">done</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+
+
+  
