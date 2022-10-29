@@ -28,7 +28,7 @@
         <div class="ui segment">
             <p class="ui big header">{{todo.id }} | {{ todo.title }}</p>
 
-            {% if not todo.complete %}
+            {% if todo.complete == False %}
             <span class="ui gray label">Not Complete</span>
             {% else %}
             <span class="ui green label">Completed</span>

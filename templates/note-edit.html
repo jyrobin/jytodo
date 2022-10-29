@@ -21,12 +21,11 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link" href="/">To Do</a>
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/notes/">Note</a>
+            <a class="nav-link" href="#">Note</a>
           </li>
-
           <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
               <li class="nav-item dropdown">
@@ -52,41 +51,31 @@
 
   <body>
     <div style="margin-top: 100px;" class="container">
-        <h1 class="text-center">NOTES ༼ つ ◕_◕ ༽つ</h1>
+        <h1 class="text-center">{{ note.title }}</h1>
 
-        <form action="/notes/add" method="post">
+        <hr>
+
+        <form action="/notes/{{ note.id }}/edit" method="post">
             <div class="row g-3"> 
                 <div class="col-12">
-                    <label for="title" class="form-label">Let's do it</label>
-                    <input class="form-control" type="text" name="title"
+                    <label for="title" class="form-label">Enter title</label>
+                    <input class="form-control" type="text" name="title" value="{{ note.title }}"
                            placeholder="ex. I have a dream..."><br>
+                </div>
+
+                <div class="col-12">
+                  <label for="title" class="form-label">Enter text</label>
+                  <input class="form-control" type="text" name="text" value="{{ note.text }}"
+                         placeholder="ex. I have a dream..."><br>
                 </div>
                     <button class="btn btn-warning btn-lg" type="submit">+</button>
             </div>
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Ψ(￣∀￣)Ψ</button>
-
-            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-              <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Notification</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-              </div>
-              <div class="offcanvas-body">
-                <p>There is no older notification</p>
-              </div>
-            </div>
+            
         </form>
 
         <hr>
 
-        {% for note in note_list %}
-          <div class="p-4 border-bottom border-primary">
-              <h2>
-                <a href="/notes/{{note.id}}">{{ note.title }}</a>
-              </h2>
-              <a class="btn btn-danger" href="/notes/delete/{{ note.id }}">Delete</a>
-          </div>
-
-        {% endfor %}
+        <a href="/notes/{{ note.id }}">BACK</a>
 
     </div>
 </body>
@@ -96,6 +85,3 @@
 </body>
 
 </html>
-
-
-  
